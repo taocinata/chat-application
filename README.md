@@ -28,4 +28,4 @@ $ npm run dev
 $ npm start
 ```
 
-5. Visit [http://localhost:3000](http://localhost:3000) and enjoy :)
+5. You can check it live [https://chat-app-una.herokuapp.com/](https://chat-app-una.herokuapp.com/)
