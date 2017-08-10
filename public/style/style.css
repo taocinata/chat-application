@@ -1,0 +1,141 @@
+/* Login Form  */
+.login{
+    width:100%;
+    height: 100vh;
+    background-color: #0c5277;
+    min-height: 700px;
+}
+.welcome-to {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 16px;
+	letter-spacing: 11.4px;
+	text-align: center; 
+    color: #367697;
+    padding-top:200px;
+}
+.my-simple-chat {
+    font-family: 'Open Sans', sans-serif;
+	font-size: 30px;
+	font-weight: bold;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: normal;
+	letter-spacing: 5px;
+	text-align: center;
+    color: #ffffff;
+    margin-top:5px; 
+}
+.login-form{
+  width:300px;
+  margin: 0 auto;
+}
+.input-name {
+    width: 296px;
+	height: 46px;
+	border-radius: 5px;
+    border: solid 1px #ffffff;
+    background-color: #0c5277;
+    margin-top:60px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    text-align: center;
+    color: #ffffff;
+}
+.input-submit{
+	width: 300px;
+    height: 50px;
+    border:none;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    letter-spacing: 1px;
+    margin-top:30px;
+	border-radius: 5px; 
+    background-color: #059d9c;
+    color: #ffffff;
+}
+.login-error{
+    margin-top:10px;
+    color:red;
+    font-size: 14px;
+    padding-top: 20px;
+    visibility: hidden;
+}
+
+/* Chat Form  */
+
+.chat-form{
+    width:100%;
+    height: 100vh;
+    background-color: #0c5277;
+}
+.message{
+    position:absolute;
+    width: calc(100% - 200px); 
+    height: calc(100% - 80px);
+    left:200px;
+    background-color: #ffffff;
+    overflow-y: auto; 
+}
+.window-background {
+	width: calc(100% - 200px);
+	height: 80px;
+    background-color: #eeeeee;
+    bottom: 0px;
+    position: fixed;
+    left:200px;
+}
+ .input-message { 
+	width: calc(100% - 180px);
+    height: 50px;
+    border: none;
+    background-color: #ffffff;
+    position:absolute;
+    left:15px;
+    top:15px;
+    padding-left: 10px;
+}
+.input-send {
+	width: 100px;
+	height: 40px;
+	border-radius: 5px;
+    background-color: #059d9c;
+    position:absolute;
+    top:20px;
+    right: 20px;
+    border: none;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    letter-spacing: 1px;
+    color: #ffffff;
+}
+.who-joined-chat {
+    position:absolute;
+    left:20px;
+    top:20px;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 16px;
+	font-weight: bold;
+	color: #658798;
+}
+.login-list {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 12px;
+	line-height: 1.5;
+	color: #ffffff;
+}
+.username{
+	font-family: 'Open Sans', sans-serif;
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 1.67;
+    color: #0d5377;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+.user-message{
+    font-family: 'Open Sans', sans-serif;
+	font-size: 12px;
+	line-height: 1.88;
+    color: #434343;
+    margin-left: 10px;
+}
