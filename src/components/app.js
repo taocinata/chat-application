@@ -48,14 +48,14 @@ export default class App extends React.Component {
             })
         })
         if(localStorage && localStorage.getItem("username")){
-            this.setState({validName: localStorage.getItem("username")});
+            this.setState({validName: localStorage.getItem("username"), name:localStorage.getItem("username")});
             console.log(localStorage.getItem("username"))
             this.props.socket.emit('join',{
                 name:localStorage.getItem("username")
             },function(err){
                 if (err) {
                     // console.log(self);
-                    if(!localStorage.getItem("username")){
+                    if(!self.state.validName){
                         self.setState({errorMsg:err,name:'',validName:''});
                         jQuery('.login-error').css('visibility','visible');
                     }
