@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "webpack --watch & nodemon server/server.js",
     "start": "node server/server.js",
-    "test": "mocha --timeout 20000 server/**/*.test.js",
+    "test": "NODE_ENV=test mocha --timeout 20000 server/**/*.test.js",
     "test-watch": "nodemon --exec 'npm test'"
   },
   "engines": {
@@ -27,6 +27,8 @@
     "babel-preset-react": "6.11.1",
     "express": "^4.15.4",
     "jquery": "^3.2.1",
+    "mongodb": "^2.2.31",
+    "mongoose": "^4.11.9",
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
     "socket.io": "^2.0.3",

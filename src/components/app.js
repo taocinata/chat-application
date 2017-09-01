@@ -16,6 +16,7 @@ export default class App extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleJoin = this.handleJoin.bind(this);
         this.handleJoinSubmit = this.handleJoinSubmit.bind(this);
+        this.handleLogout = this.handleLogout.bind(this);
 
     }
     componentWillMount () {
@@ -46,6 +47,23 @@ export default class App extends React.Component {
                 jQuery('.login-list').append(div);
             })
         })
+        if(localStorage && localStorage.getItem("username")){
+            this.setState({validName: localStorage.getItem("username")});
+            console.log(localStorage.getItem("username"))
+            this.props.socket.emit('join',{
+                name:localStorage.getItem("username")
+            },function(err){
+                if (err) {
+                    // console.log(self);
+                    if(!localStorage.getItem("username")){
+                        self.setState({errorMsg:err,name:'',validName:''});
+                        jQuery('.login-error').css('visibility','visible');
+                    }
+                    
+                    // alert(err);
+                }
+            });
+        }
     }
 
     handleChange(event) {
@@ -70,6 +88,10 @@ export default class App extends React.Component {
         this.setState({msg:''});
         event.preventDefault();
     }
+    handleLogout(event){
+        this.setState({name:'',validName:''});
+        localStorage.removeItem('username');
+    }
     
     handleJoinSubmit(event) {
         if (this.state.name.length === 0) {
@@ -85,13 +107,18 @@ export default class App extends React.Component {
         },function(err){
             if (err) {
                 // console.log(self);
-                self.setState({errorMsg:err,name:'',validName:''});
-                jQuery('.login-error').css('visibility','visible');
+                if(!this.state.validName){
+                    self.setState({errorMsg:err,name:'',validName:''});
+                    jQuery('.login-error').css('visibility','visible');
+                }
+                
                 // alert(err);
             }
         });
         if(this.state.name){
             this.setState({validName:this.state.name});
+            localStorage.setItem("username", this.state.name);
+            console.log(localStorage.getItem("username"));
         }
         else{
             this.setState({validName:''});
@@ -101,9 +128,10 @@ export default class App extends React.Component {
     }
 
     render () {
+        console.log(this.state.validName);
         // console.log('render');
         let sectionToShow;
-        if (this.state.messages.length === 0 || !this.state.validName) {
+        if (this.state.messages.length === 0 && !this.state.validName) {
             sectionToShow = (
                 <div className="login">
                     <div className="welcome-to">WELCOME TO</div>
@@ -136,6 +164,9 @@ export default class App extends React.Component {
                     <input className="input-send" type="submit" value="SEND" />
                 </form> 
                 </div>
+                <form onSubmit={this.handleLogout}>
+                        <input className="input-logout" type="submit" value="LOG OUT" />
+                </form> 
                 </div> 
             )
         }

@@ -22235,6 +22235,7 @@
 	        _this.handleSubmit = _this.handleSubmit.bind(_this);
 	        _this.handleJoin = _this.handleJoin.bind(_this);
 	        _this.handleJoinSubmit = _this.handleJoinSubmit.bind(_this);
+	        _this.handleLogout = _this.handleLogout.bind(_this);
 
 	        return _this;
 	    }
@@ -22270,6 +22271,23 @@
 	                    (0, _jquery2.default)('.login-list').append(div);
 	                });
 	            });
+	            if (localStorage && localStorage.getItem("username")) {
+	                this.setState({ validName: localStorage.getItem("username") });
+	                console.log(localStorage.getItem("username"));
+	                this.props.socket.emit('join', {
+	                    name: localStorage.getItem("username")
+	                }, function (err) {
+	                    if (err) {
+	                        // console.log(self);
+	                        if (!localStorage.getItem("username")) {
+	                            self.setState({ errorMsg: err, name: '', validName: '' });
+	                            (0, _jquery2.default)('.login-error').css('visibility', 'visible');
+	                        }
+
+	                        // alert(err);
+	                    }
+	                });
+	            }
 	        }
 	    }, {
 	        key: 'handleChange',
@@ -22300,6 +22318,12 @@
 	            event.preventDefault();
 	        }
 	    }, {
+	        key: 'handleLogout',
+	        value: function handleLogout(event) {
+	            this.setState({ name: '', validName: '' });
+	            localStorage.removeItem('username');
+	        }
+	    }, {
 	        key: 'handleJoinSubmit',
 	        value: function handleJoinSubmit(event) {
 	            if (this.state.name.length === 0) {
@@ -22315,13 +22339,18 @@
 	            }, function (err) {
 	                if (err) {
 	                    // console.log(self);
-	                    self.setState({ errorMsg: err, name: '', validName: '' });
-	                    (0, _jquery2.default)('.login-error').css('visibility', 'visible');
+	                    if (!this.state.validName) {
+	                        self.setState({ errorMsg: err, name: '', validName: '' });
+	                        (0, _jquery2.default)('.login-error').css('visibility', 'visible');
+	                    }
+
 	                    // alert(err);
 	                }
 	            });
 	            if (this.state.name) {
 	                this.setState({ validName: this.state.name });
+	                localStorage.setItem("username", this.state.name);
+	                console.log(localStorage.getItem("username"));
 	            } else {
 	                this.setState({ validName: '' });
 	            }
@@ -22331,9 +22360,10 @@
 	    }, {
 	        key: 'render',
 	        value: function render() {
+	            console.log(this.state.validName);
 	            // console.log('render');
 	            var sectionToShow = void 0;
-	            if (this.state.messages.length === 0 || !this.state.validName) {
+	            if (this.state.messages.length === 0 && !this.state.validName) {
 	                sectionToShow = _react2.default.createElement(
 	                    'div',
 	                    { className: 'login' },
@@ -22395,6 +22425,11 @@
 	                            ),
 	                            _react2.default.createElement('input', { className: 'input-send', type: 'submit', value: 'SEND' })
 	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        'form',
+	                        { onSubmit: this.handleLogout },
+	                        _react2.default.createElement('input', { className: 'input-logout', type: 'submit', value: 'LOG OUT' })
 	                    )
 	                );
 	            }
