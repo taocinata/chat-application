@@ -22253,33 +22253,45 @@
 	            this.props.socket.on('newMessage', function (msg) {
 	                console.log('Received message: ', msg);
 	                _this2.setState({ messages: _this2.state.messages.concat([{ type: 'received', message: msg.text, from: msg.from }]) });
-	                var div1 = (0, _jquery2.default)('<div class="username"></div>');
-	                div1.text(msg.from);
-	                var div2 = (0, _jquery2.default)('<div class="user-message"></div>');
-	                div2.text(msg.text);
-	                (0, _jquery2.default)('.message').append(div1).append(div2);
+
+	                var div1 = document.createElement('div');
+	                div1.setAttribute('class', 'username');
+	                div1.innerHTML = msg.from;
+
+	                var div2 = document.createElement('div');
+	                div2.setAttribute('class', 'user-message');
+	                div2.innerHTML = msg.text;
+
+	                document.getElementsByClassName('message')[0].appendChild(div1);
+	                document.getElementsByClassName('message')[0].appendChild(div2);
+
 	                (0, _jquery2.default)('.chat-scroll').animate({
 	                    scrollTop: (0, _jquery2.default)('.chat-scroll').get(0).scrollHeight }, 2000);
 	            });
 
 	            //update user list with new users
 	            this.props.socket.on('updateUserList', function (users) {
-	                (0, _jquery2.default)('.login-list').empty();
+	                var elem = document.getElementsByClassName('login-list')[0];
+	                while (elem.firstChild) {
+	                    elem.removeChild(elem.firstChild);
+	                }
 	                users.forEach(function (user) {
-	                    var div = (0, _jquery2.default)('<div></div>');
-	                    div.text(user.name);
-	                    (0, _jquery2.default)('.login-list').append(div);
+	                    var div = document.createElement('div');
+	                    div.innerHTML = user.name;
+	                    document.getElementsByClassName('login-list')[0].appendChild(div);
 	                });
 	            });
-	            if (localStorage && localStorage.getItem("username")) {
+	            var self = this;
+	            if (localStorage.getItem("username")) {
 	                this.setState({ validName: localStorage.getItem("username"), name: localStorage.getItem("username") });
-	                console.log(localStorage.getItem("username"));
+	                console.log("will mount", localStorage.getItem("username"));
 	                this.props.socket.emit('join', {
 	                    name: localStorage.getItem("username")
 	                }, function (err) {
 	                    if (err) {
-	                        // console.log(self);
+	                        console.log('is error', err);
 	                        if (!self.state.validName) {
+	                            console.log('in self is error', err);
 	                            self.setState({ errorMsg: err, name: '', validName: '' });
 	                            (0, _jquery2.default)('.login-error').css('visibility', 'visible');
 	                        }
@@ -22338,8 +22350,9 @@
 	                name: this.state.name
 	            }, function (err) {
 	                if (err) {
-	                    // console.log(self);
-	                    if (!this.state.validName) {
+	                    console.log(self);
+	                    if (self.state.name) {
+	                        console.log('handle', err);
 	                        self.setState({ errorMsg: err, name: '', validName: '' });
 	                        (0, _jquery2.default)('.login-error').css('visibility', 'visible');
 	                    }
@@ -22350,9 +22363,10 @@
 	            if (this.state.name) {
 	                this.setState({ validName: this.state.name });
 	                localStorage.setItem("username", this.state.name);
-	                console.log(localStorage.getItem("username"));
+	                console.log("handle ", localStorage.getItem("username"));
 	            } else {
 	                this.setState({ validName: '' });
+	                localStorage.removeItem('username');
 	            }
 	            this.setState({ messages: this.state.messages.concat([{ type: 'join', message: this.state.msg, from: this.state.name }]) });
 	            event.preventDefault();
@@ -22360,10 +22374,10 @@
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            console.log(this.state.validName);
+	            // console.log(this.state.validName);
 	            // console.log('render');
 	            var sectionToShow = void 0;
-	            if (this.state.messages.length === 0 && !this.state.validName) {
+	            if (!this.state.validName) {
 	                sectionToShow = _react2.default.createElement(
 	                    'div',
 	                    { className: 'login' },
